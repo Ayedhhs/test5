@@ -1,0 +1,71 @@
+<header style="
+  background-color: rgba(0, 170, 102, 0.95);
+  color: white;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  font-family: 'Arial', sans-serif;
+">
+  <h1 style="font-size: 24px; margin: 0;">تقنياتي</h1>
+
+  <!-- زر القائمة في الجوال -->
+  <button class="menu-toggle" onclick="toggleMenu()" style="
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    display: none;
+  ">
+    ☰
+  </button>
+
+  <nav id="main-menu" style="
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  ">
+    <a href="/" style="color: white; text-decoration: none;">الرئيسية</a>
+    <a href="/products/" style="color: white; text-decoration: none;">المنتجات</a>
+    <a href="/solutions/" style="color: white; text-decoration: none;">حلول</a>
+    <a href="/content/" style="color: white; text-decoration: none;">من نحن</a>
+  </nav>
+</header>
+
+<!-- تعديل استجابة القائمة -->
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById('main-menu');
+    if (menu.style.display === 'flex') {
+      menu.style.display = 'none';
+    } else {
+      menu.style.display = 'flex';
+      menu.style.flexDirection = 'column';
+      menu.style.width = '100%';
+      menu.style.backgroundColor = '#00aa66';
+      menu.style.padding = '10px 0';
+    }
+  }
+
+  // إظهار زر القائمة في الشاشات الصغيرة
+  window.addEventListener('resize', function () {
+    const button = document.querySelector('.menu-toggle');
+    const menu = document.getElementById('main-menu');
+    if (window.innerWidth < 768) {
+      button.style.display = 'block';
+      menu.style.display = 'none';
+    } else {
+      button.style.display = 'none';
+      menu.style.display = 'flex';
+      menu.style.flexDirection = 'row';
+    }
+  });
+
+  // تفعيل التحقق أول مرة عند التحميل
+  window.dispatchEvent(new Event('resize'));
+</script>
