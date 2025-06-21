@@ -1,8 +1,10 @@
 from django.urls import path
 from . import views
 
-app_name = 'products'  # تعريف namespace اللازم لتجنب خطأ NoReverseMatch
+# تعريف namespace الخاص بتطبيق المنتجات لتجنب تعارض الأسماء في reverse
+app_name = 'products'
 
 urlpatterns = [
-    path('', views.product_list_view, name='product_list'),  # اسم العرض الرئيسي للمنتجات
+    # عرض قائمة المنتجات
+    path('', views.product_list_view, name='product_list'),
 ]
