@@ -1,4 +1,7 @@
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # المسار الأساسي للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,6 +25,10 @@ INSTALLED_APPS = [
     'products',
     'orders',
     'site_content',
+
+    # تطبيقات Cloudinary
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 # ميدلوير
@@ -42,14 +49,12 @@ ROOT_URLCONF = 'test5.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'templates',  # مجلد القوالب العام
-        ],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',  # مهم لتسجيل الدخول
+                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -68,7 +73,7 @@ DATABASES = {
     }
 }
 
-# التحقق من أمان كلمات المرور
+# التحقق من كلمات المرور
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -83,14 +88,25 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# الملفات الثابتة (CSS/JS)
+# الملفات الثابتة
 STATIC_URL = '/static/'
 
-# ملفات الوسائط (الصور)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# إعدادات Cloudinary لتخزين الصور
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dkuq5hqd3',
+    'API_KEY': '876985291885829',
+    'API_SECRET': '7tAMhQjYk24DLX166ZY9GOJrH1E',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# المسار الافتراضي للمفتاح الأساسي في النماذج
+# تهيئة اتصال Cloudinary (إضافة مباشرة لضمان عمل الاختبارات في الشل وغيره)
+cloudinary.config(
+    cloud_name='dkuq5hqd3',
+    api_key='876985291885829',
+    api_secret='7tAMhQjYk24DLX166ZY9GOJrH1E'
+)
+
+# نوع المفتاح الأساسي الافتراضي
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # إعدادات تسجيل الدخول والخروج
