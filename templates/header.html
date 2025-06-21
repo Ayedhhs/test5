@@ -12,7 +12,8 @@
   z-index: 1000;
   font-family: 'Arial', sans-serif;
 ">
-  <h1 style="font-size: 24px; margin: 0;">تكنlogy</h1>
+  <!-- اسم الموقع -->
+  <h1 style="font-size: 24px; margin: 0;">تكن<span style="font-weight: bold;">logy</span></h1>
 
   <!-- زر القائمة في الجوال -->
   <button class="menu-toggle" onclick="toggleMenu()" style="
@@ -25,19 +26,29 @@
     ☰
   </button>
 
+  <!-- قائمة الروابط -->
   <nav id="main-menu" style="
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+    align-items: center;
   ">
-    <a href="/" style="color: white; text-decoration: none;">الرئيسية</a>
-    <a href="/products/" style="color: white; text-decoration: none;">المنتجات</a>
+    <a href="{% url 'home' %}" style="color: white; text-decoration: none;">الرئيسية</a>
+    <a href="{% url 'products:product_list' %}" style="color: white; text-decoration: none;">المنتجات</a>
     <a href="/solutions/" style="color: white; text-decoration: none;">حلول</a>
     <a href="/content/" style="color: white; text-decoration: none;">من نحن</a>
+
+    {% if user.is_authenticated %}
+      <span style="color: white; margin-right: 10px;">👋 مرحبًا، {{ user.username }}</span>
+      <a href="{% url 'logout' %}" style="color: white; text-decoration: none;">تسجيل الخروج</a>
+    {% else %}
+      <a href="{% url 'login' %}" style="color: white; text-decoration: none;">دخول</a>
+      <a href="{% url 'signup' %}" style="color: white; text-decoration: none;">تسجيل</a>
+    {% endif %}
   </nav>
 </header>
 
-<!-- تعديل استجابة القائمة -->
+<!-- JavaScript: استجابة القائمة -->
 <script>
   function toggleMenu() {
     const menu = document.getElementById('main-menu');
@@ -52,7 +63,7 @@
     }
   }
 
-  // إظهار زر القائمة في الشاشات الصغيرة
+  // زر القائمة للجوال
   window.addEventListener('resize', function () {
     const button = document.querySelector('.menu-toggle');
     const menu = document.getElementById('main-menu');
@@ -66,6 +77,6 @@
     }
   });
 
-  // تفعيل التحقق أول مرة عند التحميل
+  // تشغيل عند التحميل
   window.dispatchEvent(new Event('resize'));
 </script>
