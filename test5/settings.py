@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 
 # المسار الأساسي للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,6 +10,7 @@ ALLOWED_HOSTS = []
 
 # التطبيقات المثبتة
 INSTALLED_APPS = [
+    # تطبيقات Django الأساسية
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -18,13 +18,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # التطبيقات الداخلية
+    # تطبيقات المشروع
     'products',
     'orders',
     'site_content',
 ]
 
-# الميدلوير
+# ميدلوير
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -35,18 +35,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# إعدادات الروابط
+# إعدادات ملف الروابط الرئيسي
 ROOT_URLCONF = 'test5.urls'
 
-# إعدادات القوالب
+# إعدادات القوالب (Templates)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # مجلد القوالب العام
+        'DIRS': [
+            BASE_DIR / 'templates',  # مجلد القوالب العام
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.request',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',  # مهم لتسجيل الدخول
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -57,7 +60,7 @@ TEMPLATES = [
 # إعدادات WSGI
 WSGI_APPLICATION = 'test5.wsgi.application'
 
-# قاعدة البيانات
+# قاعدة البيانات - SQLite
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -65,7 +68,7 @@ DATABASES = {
     }
 }
 
-# التحقق من كلمات المرور
+# التحقق من أمان كلمات المرور
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -74,17 +77,23 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # اللغة والمنطقة الزمنية
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'ar'
+TIME_ZONE = 'Asia/Riyadh'
 USE_I18N = True
+USE_L10N = True
 USE_TZ = True
 
-# إعدادات الملفات الثابتة (CSS - JS - صور ثابتة)
-STATIC_URL = 'static/'
+# الملفات الثابتة (CSS/JS)
+STATIC_URL = '/static/'
 
-# إعدادات رفع الصور (ImageField)
+# ملفات الوسائط (الصور)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# نوع المفتاح الأساسي الافتراضي
+# المسار الافتراضي للمفتاح الأساسي في النماذج
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# إعدادات تسجيل الدخول والخروج
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
