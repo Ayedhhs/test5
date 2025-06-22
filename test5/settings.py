@@ -1,15 +1,18 @@
 from pathlib import Path
+import os
+from decouple import config
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import dj_database_url
 
 # المسار الأساسي للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # إعدادات الأمان
-SECRET_KEY = 'django-insecure-_h&@%2l59=r%vrdk73&mqpq1o8txlozfap93)(&#q-oue(ft^h'
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=True, cast=bool)
+ALLOWED_HOSTS = ['test5-vi2h.onrender.com']
 
 # التطبيقات المثبتة
 INSTALLED_APPS = [
@@ -65,13 +68,15 @@ TEMPLATES = [
 # إعدادات WSGI
 WSGI_APPLICATION = 'test5.wsgi.application'
 
-# قاعدة البيانات - SQLite
+# قاعدة البيانات - PostgreSQL باستخدام .env
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
+DATABASES['default']['OPTIONS'] = {'sslmode': 'require'}
 
 # التحقق من كلمات المرور
 AUTH_PASSWORD_VALIDATORS = [
@@ -91,19 +96,19 @@ USE_TZ = True
 # الملفات الثابتة
 STATIC_URL = '/static/'
 
-# إعدادات Cloudinary لتخزين الصور
+# إعدادات Cloudinary لتخزين الصور باستخدام .env
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dkuq5hqd3',
-    'API_KEY': '876985291885829',
-    'API_SECRET': '7tAMhQjYk24DLX166ZY9GOJrH1E',
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# تهيئة اتصال Cloudinary (إضافة مباشرة لضمان عمل الاختبارات في الشل وغيره)
+# تهيئة Cloudinary مباشرةً
 cloudinary.config(
-    cloud_name='dkuq5hqd3',
-    api_key='876985291885829',
-    api_secret='7tAMhQjYk24DLX166ZY9GOJrH1E'
+    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
+    api_key=config('CLOUDINARY_API_KEY'),
+    api_secret=config('CLOUDINARY_API_SECRET')
 )
 
 # نوع المفتاح الأساسي الافتراضي
