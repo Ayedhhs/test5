@@ -10,9 +10,13 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # إعدادات الأمان
+from decouple import config, Csv
+
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
-ALLOWED_HOSTS = ['test5-vi2h.onrender.com']
+
+# السماح بالدومينات المطلوبة فقط
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost,test5-vi2h.onrender.com', cast=Csv())
 
 # التطبيقات المثبتة
 INSTALLED_APPS = [
