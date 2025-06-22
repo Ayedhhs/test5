@@ -1,11 +1,11 @@
 from pathlib import Path
 import os
-from decouple import config, Csv
+
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 import dj_database_url
-
+from decouple import config, Csv
 # المسار الأساسي للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -14,7 +14,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # السماح فقط بالنطاقات المحددة
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'test5-vi2h.onrender.com']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
 # التطبيقات المثبتة
@@ -97,6 +97,8 @@ USE_TZ = True
 
 # الملفات الثابتة
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Cloudinary من .env
 CLOUDINARY_STORAGE = {
