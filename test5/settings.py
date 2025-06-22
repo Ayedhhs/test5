@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-from decouple import config
+from decouple import config, Csv
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -10,17 +10,18 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # إعدادات الأمان
-from decouple import config, Csv
-
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-# السماح بالدومينات المطلوبة فقط
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost,test5-vi2h.onrender.com', cast=Csv())
+# السماح فقط بالنطاقات المحددة
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS',
+    default='127.0.0.1,localhost,test5-vi2h.onrender.com',
+    cast=Csv()
+)
 
 # التطبيقات المثبتة
 INSTALLED_APPS = [
-    # تطبيقات Django الأساسية
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -33,7 +34,7 @@ INSTALLED_APPS = [
     'orders',
     'site_content',
 
-    # تطبيقات Cloudinary
+    # Cloudinary
     'cloudinary',
     'cloudinary_storage',
 ]
@@ -49,10 +50,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# إعدادات ملف الروابط الرئيسي
+# ملف الروابط الرئيسي
 ROOT_URLCONF = 'test5.urls'
 
-# إعدادات القوالب (Templates)
+# القوالب (Templates)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -69,10 +70,10 @@ TEMPLATES = [
     },
 ]
 
-# إعدادات WSGI
+# WSGI
 WSGI_APPLICATION = 'test5.wsgi.application'
 
-# قاعدة البيانات - PostgreSQL باستخدام .env
+# قاعدة البيانات (PostgreSQL من .env)
 DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL'),
@@ -100,7 +101,7 @@ USE_TZ = True
 # الملفات الثابتة
 STATIC_URL = '/static/'
 
-# إعدادات Cloudinary لتخزين الصور باستخدام .env
+# Cloudinary من .env
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': config('CLOUDINARY_API_KEY'),
@@ -108,17 +109,17 @@ CLOUDINARY_STORAGE = {
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# تهيئة Cloudinary مباشرةً
+# تهيئة Cloudinary مباشرة
 cloudinary.config(
     cloud_name=config('CLOUDINARY_CLOUD_NAME'),
     api_key=config('CLOUDINARY_API_KEY'),
     api_secret=config('CLOUDINARY_API_SECRET')
 )
 
-# نوع المفتاح الأساسي الافتراضي
+# المفتاح الافتراضي للنماذج
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# إعدادات تسجيل الدخول والخروج
+# إعدادات تسجيل الدخول
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
