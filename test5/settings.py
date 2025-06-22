@@ -14,11 +14,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # السماح فقط بالنطاقات المحددة
-ALLOWED_HOSTS = config(
-    'ALLOWED_HOSTS',
-    default='127.0.0.1,localhost,test5-vi2h.onrender.com',
-    cast=Csv()
-)
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'test5-vi2h.onrender.com']
+
 
 # التطبيقات المثبتة
 INSTALLED_APPS = [
@@ -123,3 +120,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static']
